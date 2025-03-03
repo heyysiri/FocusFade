@@ -1,6 +1,6 @@
 # Focus Fade
 
-Focus Thief is a productivity monitoring plugin for Screenpipe that helps users track and improve their focus during work sessions. It uses AI-powered analysis to provide real-time insights about your application usage and productivity patterns.
+Focus Fade is a productivity monitoring plugin for Screenpipe that helps users track and improve their focus during work sessions. It uses AI-powered analysis to provide real-time insights about your application usage and productivity patterns.
 
 ## Features
 
