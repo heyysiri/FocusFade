@@ -6,7 +6,6 @@ import {
 } from "../actions/get-screenpipe-app-settings";
 
 const DEFAULT_SETTINGS: Partial<Settings> = {
-  exampleSetting: "default value",
   prompt: `yo, you're my personal data detective! 🕵
 
 rules for the investigation:
@@ -46,13 +45,19 @@ export function usePipeSettings() {
     try {
       // Load screenpipe app settings
       const screenpipeSettings = await getScreenpipeAppSettings();
-      
-      console.log("loaded settings:", screenpipeSettings);
 
-      // Merge with defaults
+      console.log(screenpipeSettings);
+
+      const obsidianSettings = {
+        ...(screenpipeSettings.customSettings?.obsidian && {
+          ...screenpipeSettings.customSettings?.obsidian,
+        }),
+      };
+
+      // Merge everything together
       setSettings({
         ...DEFAULT_SETTINGS,
-        ...screenpipeSettings.customSettings?.pipe,
+        ...obsidianSettings,
         screenpipeAppSettings: screenpipeSettings,
       });
     } catch (error) {
@@ -65,25 +70,28 @@ export function usePipeSettings() {
   const updateSettings = async (newSettings: Partial<Settings>) => {
     try {
       // Split settings
-      const { screenpipeAppSettings, ...pipeSettings } = newSettings;
+      const { screenpipeAppSettings, ...obsidianSettings } = newSettings;
 
-      // Update screenpipe settings
+      const mergedObsidianSettings = {
+        ...DEFAULT_SETTINGS,
+        ...obsidianSettings,
+      };
+
+      // Update screenpipe settings if provided
       await updateScreenpipeAppSettings({
         ...screenpipeAppSettings,
         customSettings: {
           ...screenpipeAppSettings?.customSettings,
-          pipe: pipeSettings,
+          obsidian: obsidianSettings,
         },
       });
 
-      // Update local state
+      // Update state with everything
       setSettings({
-        ...DEFAULT_SETTINGS,
-        ...pipeSettings,
-        screenpipeAppSettings: screenpipeAppSettings || settings?.screenpipeAppSettings,
+        ...mergedObsidianSettings,
+        screenpipeAppSettings:
+          screenpipeAppSettings || settings?.screenpipeAppSettings,
       });
-      
-      console.log("settings updated successfully");
       return true;
     } catch (error) {
       console.error("failed to update settings:", error);
