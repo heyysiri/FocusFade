@@ -372,7 +372,7 @@ export default function FocusThiefPage() {
     <div className="container mx-auto p-6 space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Focus Thief Tracker</CardTitle>
+          <CardTitle>Focus Fade</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
