@@ -25,15 +25,20 @@ export interface Intelligence {
   };
 }
 
+export interface AISettings {
+  aiProviderType: string;
+  aiModel: string;
+  aiUrl: string;
+  apiKey: string;
+}
+
 export interface Settings {
-  exampleSetting?: string;
-  prompt: string;
-  vaultPath: string;
-  logTimeWindow: number;
-  logPageSize: number;
-  logModel: string;
-  analysisModel: string;
-  analysisTimeWindow: number;
-  deduplicationEnabled: boolean;
-  screenpipeAppSettings: ScreenpipeAppSettings;
+  focusSettings: {
+    defaultFocusTask: string;
+    pollInterval: number;
+    distractionThreshold: number;
+  };
+  prompt:string;
+  aiSettings: AISettings;
+  screenpipeAppSettings?: ScreenpipeAppSettings;
 }
